@@ -78,5 +78,3 @@ ORDER BY
         ELSE 4
     end,
     id_customer
-
-
