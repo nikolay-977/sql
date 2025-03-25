@@ -3,7 +3,7 @@
 -- включая его класс, среднюю позицию и количество гонок, в которых он участвовал.
 -- Также отсортировать результаты по средней позиции.
 
-WITH AveragePositions AS (
+WITH average_positions AS (
     SELECT
         c.class,
         c.name,
@@ -16,12 +16,12 @@ WITH AveragePositions AS (
     GROUP BY
         c.class, c.name
 ),
-MinAveragePositions AS (
+min_average_positions AS (
     SELECT
         class,
         MIN(avg_position) AS min_avg_position
     FROM
-        AveragePositions
+        average_positions
     GROUP BY
         class
 )
@@ -31,8 +31,8 @@ SELECT
     ap.avg_position,
     ap.race_count
 FROM
-    AveragePositions ap
+    average_positions ap
 JOIN
-    MinAveragePositions map ON ap.class = map.class AND ap.avg_position = map.min_avg_position
+    min_average_positions map ON ap.class = map.class AND ap.avg_position = map.min_avg_position
 ORDER BY
     ap.avg_position;

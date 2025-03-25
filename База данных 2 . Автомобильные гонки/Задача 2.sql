@@ -4,16 +4,16 @@
 -- Если несколько автомобилей имеют одинаковую наименьшую среднюю позицию,
 -- выбрать один из них по алфавиту (по имени автомобиля).
 
-WITH AveragePositions AS (
+WITH average_positions AS (
     SELECT
         c.name,
         c.class,
         AVG(r.position) AS avg_position,
         COUNT(r.race) AS race_count
     FROM
-        Cars c
+        cars c
     JOIN
-        Results r ON c.name = r.car
+        results r ON c.name = r.car
     GROUP BY
         c.name, c.class
 )
@@ -24,9 +24,9 @@ SELECT
     ap.race_count,
     cl.country
 FROM
-    AveragePositions ap
+    average_positions ap
 JOIN
-    Classes cl ON ap.class = cl.class
+    classes cl ON ap.class = cl.class
 ORDER BY
     ap.avg_position, ap.name
 LIMIT 1;

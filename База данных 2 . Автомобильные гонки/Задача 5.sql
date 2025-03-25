@@ -4,7 +4,7 @@
 -- а также общее количество гонок для каждого класса.
 -- Отсортировать результаты по количеству автомобилей с низкой средней позицией.
 
-WITH CarAveragePositions AS (
+WITH car_average_positions AS (
     SELECT
         r.car,
         AVG(r.position) AS avg_position,
@@ -16,7 +16,7 @@ WITH CarAveragePositions AS (
     HAVING
         AVG(r.position) > 3.0
 ),
-ClassCarCounts AS (
+class_car_counts AS (
     SELECT
         c.class,
         COUNT(DISTINCT cp.car) AS low_avg_position_count,
@@ -30,16 +30,16 @@ ClassCarCounts AS (
     GROUP BY
         c.class
 ),
-ClassDetails AS (
+class_details AS (
     SELECT
         cl.class,
         cl.country,
         cc.low_avg_position_count,
         cc.total_races
     FROM
-        Classes cl
+        classes cl
     JOIN
-        ClassCarCounts cc ON cl.class = cc.class
+        class_car_counts cc ON cl.class = cc.class
 )
 SELECT
     c.name,
@@ -49,10 +49,10 @@ SELECT
     cd.country,
     cd.total_races
 FROM
-    CarAveragePositions ap
+    car_average_positions ap
 JOIN
-    Cars c ON ap.car = c.name
+    cars c ON ap.car = c.name
 JOIN
-    ClassDetails cd ON c.class = cd.class
+    class_details cd ON c.class = cd.class
 ORDER BY
     cd.low_avg_position_count DESC;

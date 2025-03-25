@@ -4,20 +4,20 @@
 -- в которых они участвовали, и страну производства класса автомобиля.
 -- Также отсортировать результаты по классу и затем по средней позиции в порядке возрастания.
 
-WITH ClassAveragePositions AS (
+WITH class_average_positions AS (
     SELECT
         c.class,
         AVG(r.position) AS class_avg_position
     FROM
-        Cars c
+        cars c
     JOIN
-        Results r ON c.name = r.car
+        results r ON c.name = r.car
     GROUP BY
         c.class
     HAVING
         COUNT(c.name) >= 2  -- в классе минимум два автомобиля
 ),
-CarAveragePositions AS (
+car_average_positions AS (
     SELECT
         c.name,
         c.class,
@@ -37,11 +37,11 @@ SELECT
     cap.race_count,
     cl.country
 FROM
-    CarAveragePositions cap
+    car_average_positions cap
 JOIN
-    ClassAveragePositions class_avg ON cap.class = class_avg.class
+    class_average_positions class_avg ON cap.class = class_avg.class
 JOIN
-    Classes cl ON cap.class = cl.class
+    classes cl ON cap.class = cl.class
 WHERE
     cap.car_avg_position < class_avg.class_avg_position
 ORDER BY

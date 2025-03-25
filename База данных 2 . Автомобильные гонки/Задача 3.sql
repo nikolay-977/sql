@@ -4,23 +4,23 @@
 -- а также общее количество гонок, в которых участвовали автомобили этих классов.
 -- Если несколько классов имеют одинаковую среднюю позицию, выбрать все из них.
 
-WITH ClassAveragePositions AS (
+WITH class_average_positions AS (
     SELECT
         c.class,
         AVG(r.position) AS avg_position,
         COUNT(r.race) AS total_races
     FROM
-        Cars c
+        cars c
     JOIN
-        Results r ON c.name = r.car
+        results r ON c.name = r.car
     GROUP BY
         c.class
 ),
-MinAveragePosition AS (
+min_average_position AS (
     SELECT
         MIN(avg_position) AS min_avg_position
     FROM
-        ClassAveragePositions
+        class_average_positions
 )
 SELECT
     c.name,
@@ -30,15 +30,15 @@ SELECT
     cl.country,
     cap.total_races
 FROM
-    Cars c
+    cars c
 JOIN
-    Results r ON c.name = r.car
+    results r ON c.name = r.car
 JOIN
-    Classes cl ON c.class = cl.class
+    classes cl ON c.class = cl.class
 JOIN
-    ClassAveragePositions cap ON c.class = cap.class
+    class_average_positions cap ON c.class = cap.class
 WHERE
-    cap.avg_position = (SELECT min_avg_position FROM MinAveragePosition)
+    cap.avg_position = (SELECT min_avg_position FROM min_average_position)
 GROUP BY
     c.name, c.class, cl.country, cap.total_races
 ORDER BY
