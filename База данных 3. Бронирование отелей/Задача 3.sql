@@ -63,8 +63,8 @@ SELECT
     name,
     CASE
     	WHEN has_expensive = 1 THEN 'Дорогой'
-        WHEN has_average = 1 and has_expensive = 0 THEN 'Средний'
-        WHEN has_cheap = 1  and has_average = 0 and has_expensive = 0 THEN 'Дешевый'
+        WHEN has_average = 1 AND has_expensive = 0 THEN 'Средний'
+        WHEN has_cheap = 1  AND has_average = 0 AND has_expensive = 0 THEN 'Дешевый'
         ELSE ''
     END AS preferred_hotel_type,
     visited_hotels
@@ -72,9 +72,9 @@ FROM
     customer_preferences
 ORDER BY
     CASE
-	    WHEN has_cheap = 1  and has_average = 0 and has_expensive = 0 THEN 1
-	    WHEN has_average = 1 and has_expensive = 0 THEN 2
+	    WHEN has_cheap = 1  AND has_average = 0 AND has_expensive = 0 THEN 1
+	    WHEN has_average = 1 AND has_expensive = 0 THEN 2
     	WHEN has_expensive = 1 THEN 3
         ELSE 4
-    end,
+    END,
     id_customer
