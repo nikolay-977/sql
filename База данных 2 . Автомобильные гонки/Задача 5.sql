@@ -10,7 +10,7 @@ WITH car_average_positions AS (
         AVG(r.position) AS avg_position,
         COUNT(r.race) AS race_count
     FROM
-        Results r
+        results r
     GROUP BY
         r.car
     HAVING
@@ -22,11 +22,11 @@ class_car_counts AS (
         COUNT(DISTINCT cp.car) AS low_avg_position_count,
         COUNT(DISTINCT r.name) AS total_races
     FROM
-        CarAveragePositions cp
+        car_average_positions cp
     JOIN
-        Cars c ON cp.car = c.name
+        cars c ON cp.car = c.name
     JOIN
-        Races r ON r.name IN (SELECT race FROM Results WHERE car = cp.car)
+        races r ON r.name IN (SELECT race FROM Results WHERE car = cp.car)
     GROUP BY
         c.class
 ),
